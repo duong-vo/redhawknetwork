@@ -1,0 +1,82 @@
+# Node.js
+node_modules/
+
+# Compiled output
+build/
+dist/
+*.css
+*.js
+
+# Dependency directories
+/.pnp/
+.pnp.js
+
+# Optional npm cache directory
+.npm
+
+# Yarn Integrity file
+.yarn-integrity
+
+# dotenv environment variables file
+.env
+
+# Editor directories and files
+.idea
+.vscode
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# User-specific files
+npm-debug.log
+yarn-error.log
+
+# Generated files
+.DS_Store
+Thumbs.db
+
+# Parcel
+.cache/
+.parcel-cache
+
+# Next.js
+out/
+.next/
+
+# Nuxt.js
+.nuxt
+dist
+
+# Gatsby
+.cache/
+public
+
+# Yarn
+.yarn
+
+# ESLint
+.eslintcache
+
+# Prettier
+.prettierignore
+.prettier.yaml
+.prettier.config.js
+.prettierrc
+
+# macOS
+.DS_Store
+
+# Windows
+Thumbs.db
+
+# Visual Studio Code
+.vscode
+
