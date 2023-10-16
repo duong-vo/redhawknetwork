@@ -5,7 +5,7 @@ node_modules/
 build/
 dist/
 *.css
-*.js
+
 
 # Dependency directories
 /.pnp/
