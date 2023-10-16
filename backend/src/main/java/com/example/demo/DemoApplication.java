@@ -13,9 +13,9 @@ import java.util.Arrays;
 @ComponentScan(basePackageClasses = DemoController.class)
 public class DemoApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(DemoApplication.class, args);
-	}
+	// public static void main(String[] args) {
+	//	SpringApplication.run(DemoApplication.class, args);
+	//}
 
 	@Bean
 	public CommandLineRunner commandLineRunner(ApplicationContext ctx) {
