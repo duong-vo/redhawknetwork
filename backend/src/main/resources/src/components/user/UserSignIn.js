@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { signInWithPopup } from 'firebase/auth';
+import { signInWithPopup, signOut } from 'firebase/auth';
 import withStyles from '@mui/styles/withStyles';
 import Button from '@mui/material/Button';
 import Grid from '@mui/material/Grid';
@@ -42,6 +42,7 @@ const UserSignIn = (props) => {
         console.log('this is good');
       } else {
         console.log('this is bad');
+        signOut(auth);
         setOpenSnackbar(true);
       }
     });
@@ -87,7 +88,7 @@ const UserSignIn = (props) => {
             spacing={2}
           >
             <Grid item>
-              <img src="https://auth.miamioh.edu/cas/img/miamiohBW.png" />
+              <img src="https://auth.miamioh.edu/cas/img/miamiohBW.png" alt="Miami Logo" />
             </Grid>
           </Grid>
           <Grid
