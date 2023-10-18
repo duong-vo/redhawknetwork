@@ -10,7 +10,7 @@ import org.springframework.context.annotation.ComponentScan;
 import java.util.Arrays;
 
 @SpringBootApplication
-// @ComponentScan(basePackageClasses = DemoController.class)
+@ComponentScan(basePackageClasses = ApplicationController.class)
 public class MainApplication {
 
 	public static void main(String[] args) {
