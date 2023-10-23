@@ -13,4 +13,8 @@ public class User {
 	private String email;
 	@Column
 	private String name;
+
+	public String getEmail() {
+		return email;
+	}
 }
