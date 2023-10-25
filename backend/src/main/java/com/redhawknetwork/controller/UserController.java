@@ -14,6 +14,11 @@ public class UserController {
 	@Autowired
 	UserService userService;
 
+	@RequestMapping("/")
+	public String index() {
+		return "Welcome to the public facing API for the RedhawkNetwork!";
+	}
+
 	@PostMapping("/user/add")
 	public String addUser(User user, RedirectAttributes redirectAttributes) {
 		if (userService.saveOrUpdateUser(user)) {
