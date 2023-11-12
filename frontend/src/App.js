@@ -3,6 +3,8 @@ import Backdrop from '@mui/material/Backdrop';
 import CircularProgress from '@mui/material/CircularProgress';
 import { onAuthStateChanged, signOut } from 'firebase/auth';
 import UserSignIn from './components/user/UserSignIn';
+import PostIndex from './components/post/PostIndex';
+import CustomAppBar from './components/common/CustomAppBar';
 import { auth } from './shared/Firebase';
 import { MIAMI_DOMAIN_REGEX } from './shared/Constants';
 
@@ -30,10 +32,10 @@ const App = () => {
       </Backdrop>
       {!isLoading && !authUser && <UserSignIn />}
       {!isLoading && authUser && (
-        <div>
-          Signed In
-          <button onClick={signOutHandler}> Sign Out </button>
-        </div>
+        <>
+          <CustomAppBar user={authUser} signOutHandler={signOutHandler} />
+          <PostIndex />
+        </>
       )}
     </>
   );

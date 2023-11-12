@@ -19,8 +19,9 @@ public class UserController {
 		return "Welcome to the public facing API for the RedhawkNetwork!";
 	}
 
-	@PostMapping("/user/add")
-	public String addUser(User user, RedirectAttributes redirectAttributes) {
+	@PostMapping(value = "/user/add", consumes = {"application/json"})
+	public String addUser(@RequestBody User user, RedirectAttributes redirectAttributes) {
+		System.out.println(user);
 		if (userService.saveOrUpdateUser(user)) {
 			redirectAttributes.addFlashAttribute("message", "Save Success");
 			return "redirect:/viewUserList";

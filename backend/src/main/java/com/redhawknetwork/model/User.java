@@ -9,17 +9,16 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Entity;
 
 @Entity
-@Table(uniqueConstraints = @UniqueConstraint(columnNames = "email"))
+@Table(name="users", uniqueConstraints = @UniqueConstraint(columnNames = "email"))
 public class User {
-
+	@Id
+	@Column(name = "email")
 	private String email;
 
+	@Column(name = "name")
 	private String name;
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "email")
-	public String getEmail() {
+		public String getEmail() {
 		return email;
 	}
 
