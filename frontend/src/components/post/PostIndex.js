@@ -30,7 +30,7 @@ const BlogPost = (props) => {
           <Grid item key={index} zeroMinWidth>
             <Card>
               <CardContent>
-                <Typography variant="h3" component="div">
+                <Typography variant="h2" component="div">
                   {post.title}
                 </Typography>
                 <Typography color="text.secondary">{post.date}</Typography>
