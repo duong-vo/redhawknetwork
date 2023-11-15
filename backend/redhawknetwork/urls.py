@@ -21,5 +21,6 @@ from api import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/post/add', views.add_post),
-    path('api/user/add', views.add_user)
+    path('api/user/add', views.add_user),
+    path('api/posts', views.get_posts)
 ]

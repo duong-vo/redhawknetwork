@@ -10,14 +10,21 @@ import {
 } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 
-const PostPopup = ({ open, handleClose }) => {
+const PostPopup = ({ open, handleClose, user }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     axios({
-      url: 'https://localhost:8080/user/add',
+      url: 'http://localhost:8000/api/post/add',
       method: 'POST',
+      withCredentials: true,
+      data: {
+        title: 'title',
+        content: 'content',
+        createdDate: new Date(),
+        author: user.uid,
+      },
     }).then(() => {
-      console.log('done');
+      console.log(document.cookie);
     });
   };
 

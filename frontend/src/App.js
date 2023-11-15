@@ -14,7 +14,7 @@ const App = () => {
   const [authUser, setAuthUser] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   useEffect(() => {
-    onAuthStateChanged(auth, (user) => {
+    onAuthStateChanged(auth, async (user) => {
       console.log('user = ', user);
       if (user && MIAMI_DOMAIN_REGEX.test(user.email)) {
         axios({
@@ -32,6 +32,7 @@ const App = () => {
           console.log('sum ting wong');
         });
       } else {
+        document.cookie = '';
         setAuthUser(null);
       }
       setIsLoading(false);
@@ -48,7 +49,7 @@ const App = () => {
       {!isLoading && !authUser && <UserSignIn />}
       {!isLoading && authUser && (
         <>
-          <CustomNavbar signOutHandler={signOutHandler} />
+          <CustomNavbar signOutHandler={signOutHandler} user={authUser} />
           <PostIndex />
         </>
       )}

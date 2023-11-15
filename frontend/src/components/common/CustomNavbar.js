@@ -4,7 +4,7 @@ import PostPopup from './PostPopup';
 import SearchIcon from '@mui/icons-material/Search';
 
 const CustomNavbar = (props) => {
-  const { signOutHandler } = props;
+  const { signOutHandler, user } = props;
   const [open, setOpen] = useState(false);  
 
   return (
@@ -56,7 +56,7 @@ const CustomNavbar = (props) => {
               <Grid item xs={2}>
                 <Button variant="contained" color="primary" sx={{ ml: 2 }} onClick={signOutHandler}>Sign Out</Button>
               </Grid>
-              <PostPopup open={open} handleClose={() => setOpen(false)} />
+              <PostPopup open={open} handleClose={() => setOpen(false)} user={user} />
             </Grid>
           </Grid>
         </Grid>
