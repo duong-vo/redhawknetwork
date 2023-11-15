@@ -1,4 +1,5 @@
 .vscode/
 .env
+venv/
 node_modules/
 backend/redhawknetwork/__pycache__

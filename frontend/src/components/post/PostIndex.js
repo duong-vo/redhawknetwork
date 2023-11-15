@@ -1,9 +1,17 @@
-import React from 'react';
-import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
-import Container from '@mui/material/Container';
-import Typography from '@mui/material/Typography';
-import Grid from '@mui/material/Grid';
+import React, { useState } from 'react';
+import {
+  Grid,
+  Container,
+  Paper,
+  Typography,
+  Checkbox,
+  TextField,
+  Button,
+  Card,
+  CardContent,
+  CardActions,
+} from '@mui/material';
+import Post from './Post';
 
 const BlogPost = (props) => {
   const posts = [
@@ -18,29 +26,45 @@ const BlogPost = (props) => {
       content: 'content2',
     },
   ];
+
+  const [upvoteCount, setUpvoteCount] = useState(0);
+  const [downvoteCount, setDownvoteCount] = useState(0);
+
+  const handleUpvote = () => {
+    setUpvoteCount(upvoteCount + 1);
+  };
+
+  const handleDownvote = () => {
+    setDownvoteCount(downvoteCount + 1);
+  };
   return (
-    <Container maxWidth="sm">
-      <Grid
-        container
-        direction="column"
-        justifyContent="center"
-        spacing={3}
-      >
-        {posts.map((post, index) => (
-          <Grid item key={index} zeroMinWidth>
-            <Card>
-              <CardContent>
-                <Typography variant="h2" component="div">
-                  {post.title}
-                </Typography>
-                <Typography color="text.secondary">{post.date}</Typography>
-                <Typography variant="body2">{post.content}</Typography>
-              </CardContent>
-            </Card>
-          </Grid>
-        ))}
+    <Grid container spacing={2} sx={{ padding: 4 }}>
+      <Grid item xs={2}>
+        <Paper sx={{ border: '1px solid #ddd', padding: 4, borderLeft: '1px dotted' }}>
+          <Typography variant="h6">Filter Posts by Category</Typography>
+          <div className="form-check">
+            <Checkbox value="" id="gaming" />
+            <label htmlFor="gaming">Gaming</label>
+          </div>
+        </Paper>
       </Grid>
-    </Container>
+      <Grid item xs={10}>
+        <div id="add-post-form" style={{ display: 'none' }}>
+          <TextField id="post-title" label="Title" fullWidth />
+          <TextField id="post-description" label="Description" multiline rows={4} fullWidth />
+        </div>
+        <div className="main-content">
+          <Grid container justifyContent="center" alignItems="center" direction="column" spacing={2}>
+            <Grid item>
+              <Post />
+            </Grid>
+            <Grid item>
+              <Post />
+            </Grid>
+          </Grid>
+        </div>
+      </Grid>
+    </Grid>
   );
 };
 

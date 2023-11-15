@@ -4,6 +4,8 @@ Brotli==1.0.9
 certifi==2022.12.7
 cpplint==1.6.1
 Django==4.2.7
+djangorestframework==3.14.0
+macholib==1.16.3
 mutagen==1.46.0
 pefile==2023.2.7
 psycopg2==2.9.9
@@ -11,6 +13,7 @@ pycryptodomex==3.17
 pyinstaller==5.9.0
 pyinstaller-hooks-contrib==2023.1
 python-dotenv==1.0.0
+pytz==2023.3.post1
 pywin32-ctypes==0.2.0
 sqlparse==0.4.4
 typing_extensions==4.8.0
