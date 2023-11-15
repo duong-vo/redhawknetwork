@@ -5,6 +5,7 @@ import { onAuthStateChanged, signOut } from 'firebase/auth';
 import UserSignIn from './components/user/UserSignIn';
 import PostIndex from './components/post/PostIndex';
 import CustomAppBar from './components/common/CustomAppBar';
+import CustomNavbar from './components/common/CustomNavbar';
 import { auth } from './shared/Firebase';
 import { MIAMI_DOMAIN_REGEX } from './shared/Constants';
 
@@ -33,7 +34,7 @@ const App = () => {
       {!isLoading && !authUser && <UserSignIn />}
       {!isLoading && authUser && (
         <>
-          <CustomAppBar user={authUser} signOutHandler={signOutHandler} />
+          <CustomNavbar />
           <PostIndex />
         </>
       )}
