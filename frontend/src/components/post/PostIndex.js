@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import {
   Grid,
   Container,
@@ -13,19 +14,17 @@ import {
 } from '@mui/material';
 import Post from './Post';
 
-const BlogPost = (props) => {
-  const posts = [
-    {
-      title: 'Title',
-      date: 'date',
-      content: 'content',
-    },
-    {
-      title: 'Title2',
-      date: 'date2',
-      content: 'content2',
-    },
-  ];
+const PostIndex = (props) => {
+  const [posts, setPosts] = useState([])
+  useEffect(() => {
+    axios({
+      url: 'http://localhost:8000/api/posts',
+      method: 'get'
+    }).then((response) => {
+      setPosts(response.data);
+      console.log('posts = ', posts);
+    });
+  }, []);
 
   const [upvoteCount, setUpvoteCount] = useState(0);
   const [downvoteCount, setDownvoteCount] = useState(0);
@@ -55,12 +54,9 @@ const BlogPost = (props) => {
         </div>
         <div className="main-content">
           <Grid container justifyContent="center" alignItems="center" direction="column" spacing={2}>
-            <Grid item>
-              <Post />
-            </Grid>
-            <Grid item>
-              <Post />
-            </Grid>
+            {posts && posts.map((post) => (
+              <Post title={post.title} content={post.content} date={post.date} author={post.author} />
+            ))}
           </Grid>
         </div>
       </Grid>
@@ -68,4 +64,4 @@ const BlogPost = (props) => {
   );
 };
 
-export default BlogPost;
+export default PostIndex;

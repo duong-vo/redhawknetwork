@@ -8,15 +8,17 @@ import {
 } from '@mui/material';
 
 const Post = (props) => {
-  const { title, date, content } = props;
+  const { title, date, content, author } = props;
+  console.log(author);
+
   return (
     <Card>
       <CardContent>
-        <Typography variant="h5"> title </Typography>
-        <Typography variant="body1"> content </Typography>
+        <Typography variant="h5"> {title} </Typography>
+        <Typography variant="body1"> {content} </Typography>
       </CardContent>
       <CardActions>
-        <span>Posted by user123</span>
+        <span>Posted by {author.username} </span>
         <a href="#">20 comments</a>
         <div className="voting">
           <Button className="btn-vote upvote">
