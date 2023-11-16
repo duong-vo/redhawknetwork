@@ -24,7 +24,7 @@ def add_post(request):
 @api_view(['GET'])
 def get_posts(request):
     if request.method == 'GET':
-        posts = Post.objects
+        posts = Post.objects.select_related('author').all()
         serialized_posts = PostSerializer(posts, many=True).data
         return JsonResponse(serialized_posts, safe=False, status=status.HTTP_200_OK)
 

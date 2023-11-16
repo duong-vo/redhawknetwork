@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
 import {
   Dialog,
@@ -11,6 +11,16 @@ import {
 import CloseIcon from '@mui/icons-material/Close';
 
 const PostPopup = ({ open, handleClose, user }) => {
+  const [formData, setFormData] = useState({
+    title: '',
+    content: '',
+  });
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
     axios({
@@ -18,15 +28,16 @@ const PostPopup = ({ open, handleClose, user }) => {
       method: 'POST',
       withCredentials: true,
       data: {
-        title: 'title',
-        content: 'content',
+        title: formData.title,
+        content: formData.content,
         createdDate: new Date(),
         author: user.uid,
       },
     }).then(() => {
-      console.log(document.cookie);
+      window.location.reload();
     });
   };
+  const isSubmitDisabled = formData.title === '' || formData.content === '';
 
   return (
     <Dialog open={open} onClose={handleClose} maxWidth="md" fullWidth>
@@ -44,6 +55,9 @@ const PostPopup = ({ open, handleClose, user }) => {
               id="post-title"
               className="form-control"
               placeholder="Post Title"
+              name="title"
+              value={formData.title}
+              onChange={handleInputChange}
               fullWidth
             />
           </div>
@@ -52,12 +66,15 @@ const PostPopup = ({ open, handleClose, user }) => {
               id="post-description"
               className="form-control"
               placeholder="Post Description"
+              name="content"
+              value={formData.content}
+              onChange={handleInputChange}
               multiline
               rows={4}
               fullWidth
             />
           </div>
-          <Button type="submit" variant="contained" color="success">
+          <Button disabled={isSubmitDisabled} type="submit" variant="contained" color="success">
             Add Post
           </Button>
         </form>

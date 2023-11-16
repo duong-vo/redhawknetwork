@@ -7,6 +7,8 @@ class UserSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class PostSerializer(serializers.ModelSerializer):
+    author = UserSerializer()
+
     class Meta:
         model = Post
         fields = '__all__'
