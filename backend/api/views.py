@@ -30,7 +30,6 @@ def get_posts(request):
         for post in posts:
             post_data = PostSerializer(post).data
             reactions = post.reactions.all()
-            print('reactions = ', reactions)
             serialized_reactions = ReactionSerializer(reactions, many=True).data
             post_data['reactions'] = serialized_reactions
             serialized_posts.append(post_data)
