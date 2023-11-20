@@ -11,7 +11,6 @@ from .serializers import UserSerializer, PostSerializer, ReactionSerializer
 @api_view(['POST'])
 def add_post(request):
     if request.method == 'POST':
-        print(request.data)
         title = request.data['title']
         content = request.data['content']
         created_date = request.data['createdDate']
@@ -62,9 +61,6 @@ def add_react(request):
         uid = request.data['uid']
         post_id = request.data['post_id']
         type = request.data['type']
-        print(uid)
-        print(post_id)
-        print(type)
         user = User.objects.get(id=uid)
         post = Post.objects.get(id=post_id)
         try:
