@@ -17,6 +17,8 @@ const App = () => {
     onAuthStateChanged(auth, async (user) => {
       console.log('user = ', user);
       if (user && MIAMI_DOMAIN_REGEX.test(user.email)) {
+        const token = await user.getIdToken();
+        document.cookie = `token=${token}`;
         axios({
           url: 'http://localhost:8000/api/user/add',
           method: 'post',

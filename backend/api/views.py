@@ -4,8 +4,8 @@ from django.http.response import JsonResponse
 from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from .models import User, Post
-from .serializers import UserSerializer, PostSerializer
+from .models import User, Post, Reaction
+from .serializers import UserSerializer, PostSerializer, ReactionSerializer
 
 # Create your views here.
 @api_view(['POST'])
@@ -25,7 +25,15 @@ def add_post(request):
 def get_posts(request):
     if request.method == 'GET':
         posts = Post.objects.select_related('author').all()
-        serialized_posts = PostSerializer(posts, many=True).data
+        serialized_posts = []
+
+        for post in posts:
+            post_data = PostSerializer(post).data
+            reactions = post.reactions.all()
+            print('reactions = ', reactions)
+            serialized_reactions = ReactionSerializer(reactions, many=True).data
+            post_data['reactions'] = serialized_reactions
+            serialized_posts.append(post_data)
         return JsonResponse(serialized_posts, safe=False, status=status.HTTP_200_OK)
 
 @api_view(['POST'])
@@ -48,4 +56,31 @@ def add_user(request):
 
         print(saved_user)
         return Response({'message': 'User added successfully'}, status=status.HTTP_200_OK)
+
+@api_view(['POST'])
+def add_react(request):
+    if request.method == 'POST':
+        uid = request.data['uid']
+        post_id = request.data['post_id']
+        type = request.data['type']
+        print(uid)
+        print(post_id)
+        print(type)
+        user = User.objects.get(id=uid)
+        post = Post.objects.get(id=post_id)
+        try:
+            # Try to get an existing reaction for the user and post
+            existing_reaction = Reaction.objects.get(user=user, post=post)
+
+            # If the existing reaction is of the same type, delete it (toggle off)
+            if existing_reaction.reaction_type == type:
+                existing_reaction.delete()
+            else:
+                # If the existing reaction is of a different type, update it (toggle on)
+                existing_reaction.reaction_type = type
+                existing_reaction.save()
+        except Reaction.DoesNotExist:
+            # If no existing reaction, create a new one
+            Reaction.objects.create(user=user, post=post, reaction_type=type)
+        return Response({'message': 'Reaction created/updated'}, status=status.HTTP_200_OK)
 

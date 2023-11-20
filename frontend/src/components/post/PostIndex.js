@@ -55,7 +55,7 @@ const PostIndex = (props) => {
         <div className="main-content">
           <Grid container justifyContent="center" alignItems="center" direction="column" spacing={2}>
             {posts && posts.map((post) => (
-              <Post title={post.title} content={post.content} date={post.date} author={post.author} />
+              <Post post={post} />
             ))}
           </Grid>
         </div>
