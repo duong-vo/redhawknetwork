@@ -63,9 +63,6 @@ def add_react(request):
         uid = request.data['uid']
         post_id = request.data['post_id']
         type = request.data['type']
-        print(uid)
-        print(post_id)
-        print(type)
         user = User.objects.get(id=uid)
         post = Post.objects.get(id=post_id)
         try:
