@@ -11,7 +11,6 @@ from .serializers import UserSerializer, PostSerializer, ReactionSerializer
 @api_view(['POST'])
 def add_post(request):
     if request.method == 'POST':
-        print(request.data)
         title = request.data['title']
         content = request.data['content']
         created_date = request.data['createdDate']
