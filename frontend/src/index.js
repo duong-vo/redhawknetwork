@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import CssBaseline from '@mui/material/CssBaseline';
 import { createTheme, ThemeProvider, StyledEngineProvider } from '@mui/material/styles';
+import { BrowserRouter } from "react-router-dom";
 import App from './App';
 
 const theme = createTheme({
@@ -13,8 +14,10 @@ root.render(
   <StyledEngineProvider injectFirst>
     <ThemeProvider theme={theme}>
       <React.StrictMode>
-        <CssBaseline />
-        <App />
+        <BrowserRouter>
+          <CssBaseline />
+          <App />
+        </BrowserRouter>
       </React.StrictMode>
     </ThemeProvider>
   </StyledEngineProvider>
