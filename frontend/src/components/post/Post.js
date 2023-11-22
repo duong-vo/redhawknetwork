@@ -12,7 +12,7 @@ import { auth } from '../../shared/Firebase';
 const Post = (props) => {
   const { post } = props;
   console.log('each post = ', post);
-  const { title, content, author, reactions, comments } = post;
+  const { id, title, content, author, reactions, comments } = post;
   const currentUser = auth.currentUser;
   const [likeCount, setLikeCount] = useState(reactions.filter(reaction => reaction.reaction_type === 'like').length);
   const [dislikeCount, setDislikeCount] = useState(reactions.filter(reaction => reaction.reaction_type === 'dislike').length);
@@ -62,14 +62,14 @@ const Post = (props) => {
     });
   };
   return (
-    <Card>
+    <Card onClick={() => window.location.href = '/posts/' + id}>
       <CardContent>
         <Typography variant="h5"> {title} </Typography>
         <Typography variant="body1"> {content} </Typography>
       </CardContent>
       <CardActions>
         <span>Posted by {author.username} </span>
-        <a href="#">{comments.length} comment(s)</a>
+        <a href="#">{comments && comments.length} comment(s)</a>
         <div className="voting">
           <Button className="btn-vote upvote" onClick={() => handleReactionClick('like')}>
             🔺

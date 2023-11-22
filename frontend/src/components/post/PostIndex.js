@@ -22,7 +22,6 @@ const PostIndex = (props) => {
       method: 'get'
     }).then((response) => {
       setPosts(response.data);
-      console.log('posts = ', posts);
     });
   }, []);
 
@@ -36,6 +35,7 @@ const PostIndex = (props) => {
   const handleDownvote = () => {
     setDownvoteCount(downvoteCount + 1);
   };
+  console.log('posts = ', posts);
   return (
     <Grid container spacing={2} sx={{ padding: 4 }}>
       <Grid item xs={2}>
