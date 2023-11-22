@@ -7,13 +7,20 @@ import {
   IconButton,
   TextField,
   Button,
+  Select,
+  MenuItem,
+  FormControl,
+  InputLabel,
+  Grid,
 } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
+import { CATEGORIES, CATEGORY_LABELS } from '../../shared/Constants';
 
 const PostPopup = ({ open, handleClose, user }) => {
   const [formData, setFormData] = useState({
     title: '',
     content: '',
+    category: 'OTHER',
   });
 
   const handleInputChange = (e) => {
@@ -30,6 +37,7 @@ const PostPopup = ({ open, handleClose, user }) => {
       data: {
         title: formData.title,
         content: formData.content,
+        category: formData.category,
         createdDate: new Date(),
         author: user.uid,
       },
@@ -42,9 +50,30 @@ const PostPopup = ({ open, handleClose, user }) => {
   return (
     <Dialog open={open} onClose={handleClose} maxWidth="md" fullWidth>
       <DialogTitle>
-        <IconButton edge="end" color="inherit" onClick={handleClose} aria-label="close">
-          <CloseIcon />
-        </IconButton>
+        <Grid container>
+          <Grid item xs={1}>
+            <IconButton edge="end" color="inherit" onClick={handleClose} aria-label="close">
+              <CloseIcon />
+            </IconButton>
+          </Grid>
+          <Grid item xs={11}>
+            <FormControl style={{ width: '100%' }}>
+              <InputLabel> Category </InputLabel>
+              <Select
+                label="Category"
+                value={formData.category}
+                name="category"
+                onChange={handleInputChange}
+              >
+                {CATEGORIES.map(category => (
+                  <MenuItem value={category}>
+                    {CATEGORY_LABELS[category]}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+          </Grid>
+        </Grid>
       </DialogTitle>
       <DialogContent sx={{ p: 3 }}>
         <form id="create-post-form" onSubmit={handleSubmit}>

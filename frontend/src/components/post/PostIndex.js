@@ -13,6 +13,7 @@ import {
   CardActions,
 } from '@mui/material';
 import Post from './Post';
+import { CATEGORIES, CATEGORY_LABELS } from '../../shared/Constants';
 
 const PostIndex = (props) => {
   const [posts, setPosts] = useState([])
@@ -22,7 +23,6 @@ const PostIndex = (props) => {
       method: 'get'
     }).then((response) => {
       setPosts(response.data);
-      console.log('posts = ', posts);
     });
   }, []);
 
@@ -36,15 +36,18 @@ const PostIndex = (props) => {
   const handleDownvote = () => {
     setDownvoteCount(downvoteCount + 1);
   };
+  console.log('posts = ', posts);
   return (
     <Grid container spacing={2} sx={{ padding: 4 }}>
       <Grid item xs={2}>
         <Paper sx={{ border: '1px solid #ddd', padding: 4, borderLeft: '1px dotted' }}>
           <Typography variant="h6">Filter Posts by Category</Typography>
-          <div className="form-check">
-            <Checkbox value="" id="gaming" />
-            <label htmlFor="gaming">Gaming</label>
-          </div>
+          {CATEGORIES.map(category => (
+            <div className="form-check">
+              <Checkbox value="" id="gaming" />
+              <label htmlFor="gaming"> {CATEGORY_LABELS[category]} </label>
+            </div>
+          ))}
         </Paper>
       </Grid>
       <Grid item xs={10}>

@@ -23,5 +23,7 @@ urlpatterns = [
     path('api/post/add', views.add_post),
     path('api/user/add', views.add_user),
     path('api/posts', views.get_posts),
+    path('api/posts/<int:id>', views.get_post),
     path('api/reaction/add', views.add_react),
+    path('api/comment/add', views.add_comment),
 ]

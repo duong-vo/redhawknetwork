@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Route, Routes } from "react-router-dom";
 import axios from 'axios';
 import Backdrop from '@mui/material/Backdrop';
 import CircularProgress from '@mui/material/CircularProgress';
@@ -7,6 +8,7 @@ import UserSignIn from './components/user/UserSignIn';
 import PostIndex from './components/post/PostIndex';
 import CustomAppBar from './components/common/CustomAppBar';
 import CustomNavbar from './components/common/CustomNavbar';
+import ShowPost from './pages/ShowPost';
 import { auth } from './shared/Firebase';
 import { MIAMI_DOMAIN_REGEX } from './shared/Constants';
 
@@ -45,16 +47,32 @@ const App = () => {
   };
   return (
     <>
-      <Backdrop open={isLoading} style={{ zIndex: 999, color: '#fff' }}>
-        <CircularProgress color="inherit" />
-      </Backdrop>
-      {!isLoading && !authUser && <UserSignIn />}
-      {!isLoading && authUser && (
-        <>
-          <CustomNavbar signOutHandler={signOutHandler} user={authUser} />
-          <PostIndex />
-        </>
-      )}
+      <Routes>
+        <Route path="/posts/:id" element={(
+          <>
+            {!isLoading && authUser && (
+              <>
+                <CustomNavbar signOutHandler={signOutHandler} user={authUser} />
+                <ShowPost />
+              </>
+            )}
+          </>
+        )} />
+        <Route path="/" element={(
+          <>
+            <Backdrop open={isLoading} style={{ zIndex: 999, color: '#fff' }}>
+              <CircularProgress color="inherit" />
+            </Backdrop>
+            {!isLoading && !authUser && <UserSignIn />}
+            {!isLoading && authUser && (
+              <>
+                <CustomNavbar signOutHandler={signOutHandler} user={authUser} />
+                <PostIndex />
+              </>
+            )}
+          </>
+          )} />
+      </Routes>
     </>
   );
 }
