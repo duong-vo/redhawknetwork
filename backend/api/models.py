@@ -7,11 +7,25 @@ class User(models.Model):
     email = models.EmailField()
 
 class Post(models.Model):
+    GAMING = 'GAMING'
+    CAREER = 'CAREER'
+    SCHOOL = 'SCHOOL'
+    STUDENT_ORGS = 'STUDENT ORGANIZATIONS'
+    OTHER = 'OTHER'
+
+    CHOICES = [
+        (GAMING, 'GAMING'),
+        (CAREER, 'CAREER'),
+        (SCHOOL, 'SCHOOL'),
+        (STUDENT_ORGS, 'STUDENT ORGANIZATIONS'),
+    ]
+
     id = models.AutoField(primary_key=True)
     title = models.CharField(max_length=128)
     content = models.TextField()
     created_date = models.DateTimeField()
     author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='posts')
+    category = models.CharField(max_length=25, choices=CHOICES, default=OTHER)
 
 class Reaction(models.Model):
     LIKE = 'like'

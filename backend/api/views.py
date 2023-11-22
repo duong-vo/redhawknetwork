@@ -15,9 +15,10 @@ def add_post(request):
         content = request.data['content']
         created_date = request.data['createdDate']
         author_id = request.data['author']
+        category = request.data['category']
         author = User.objects.get(id=author_id)
 
-        saved_post = Post.objects.create(title=title, content=content, created_date=created_date, author=author)
+        saved_post = Post.objects.create(title=title, content=content, created_date=created_date, author=author, category=category)
         return Response({'message': 'Post added successfully'}, status=status.HTTP_200_OK)
 
 @api_view(['GET'])
@@ -30,7 +31,10 @@ def get_posts(request):
             post_data = PostSerializer(post).data
             reactions = post.reactions.all()
             serialized_reactions = ReactionSerializer(reactions, many=True).data
+            comments = post.comments.all()
+            serialized_comments = CommentSerializer(comments, many=True).data
             post_data['reactions'] = serialized_reactions
+            post_data['comments'] = serialized_comments
             serialized_posts.append(post_data)
         return JsonResponse(serialized_posts, safe=False, status=status.HTTP_200_OK)
 

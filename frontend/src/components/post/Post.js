@@ -8,11 +8,12 @@ import {
   Button,
 } from '@mui/material';
 import { auth } from '../../shared/Firebase';
+import { CATEGORY_LABELS } from '../../shared/Constants';
 
 const Post = (props) => {
   const { post } = props;
   console.log('each post = ', post);
-  const { id, title, content, author, reactions, comments } = post;
+  const { id, title, content, author, reactions, comments, category } = post;
   const currentUser = auth.currentUser;
   const [likeCount, setLikeCount] = useState(reactions.filter(reaction => reaction.reaction_type === 'like').length);
   const [dislikeCount, setDislikeCount] = useState(reactions.filter(reaction => reaction.reaction_type === 'dislike').length);
@@ -64,6 +65,7 @@ const Post = (props) => {
   return (
     <Card onClick={() => window.location.href = '/posts/' + id}>
       <CardContent>
+        <Typography varaint="h4" sx={{ fontWeight: 300 }}> {CATEGORY_LABELS[category]} </Typography>
         <Typography variant="h5"> {title} </Typography>
         <Typography variant="body1"> {content} </Typography>
       </CardContent>
