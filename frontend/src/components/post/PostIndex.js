@@ -2,21 +2,20 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import {
   Grid,
-  Container,
+  RadioGroup,
   Paper,
   Typography,
-  Checkbox,
   TextField,
-  Button,
-  Card,
-  CardContent,
-  CardActions,
+  FormControl,
+  FormControlLabel,
+  Radio,
 } from '@mui/material';
 import Post from './Post';
 import { CATEGORIES, CATEGORY_LABELS } from '../../shared/Constants';
 
 const PostIndex = (props) => {
-  const [posts, setPosts] = useState([])
+  const [posts, setPosts] = useState([]);
+  const [filter, setFilter] = useState(null);
   useEffect(() => {
     axios({
       url: 'http://localhost:8000/api/posts',
@@ -25,16 +24,8 @@ const PostIndex = (props) => {
       setPosts(response.data);
     });
   }, []);
-
-  const [upvoteCount, setUpvoteCount] = useState(0);
-  const [downvoteCount, setDownvoteCount] = useState(0);
-
-  const handleUpvote = () => {
-    setUpvoteCount(upvoteCount + 1);
-  };
-
-  const handleDownvote = () => {
-    setDownvoteCount(downvoteCount + 1);
+  const handleFilterChange = (e) => {
+    setFilter(e.target.value);
   };
   console.log('posts = ', posts);
   return (
@@ -42,12 +33,18 @@ const PostIndex = (props) => {
       <Grid item xs={2}>
         <Paper sx={{ border: '1px solid #ddd', padding: 4, borderLeft: '1px dotted' }}>
           <Typography variant="h6">Filter Posts by Category</Typography>
-          {CATEGORIES.map(category => (
-            <div className="form-check">
-              <Checkbox value="" id="gaming" />
-              <label htmlFor="gaming"> {CATEGORY_LABELS[category]} </label>
-            </div>
-          ))}
+          <FormControl component="fieldset">
+            <RadioGroup
+              aria-label="category"
+              name="category"
+              value={filter}
+              onChange={handleFilterChange}
+              >
+              {CATEGORIES.map(category => (
+                <FormControlLabel value={category} control={<Radio />} label={CATEGORY_LABELS[category]} />
+              ))}
+              </RadioGroup>
+            </FormControl>
         </Paper>
       </Grid>
       <Grid item xs={10}>
@@ -57,7 +54,7 @@ const PostIndex = (props) => {
         </div>
         <div className="main-content">
           <Grid container justifyContent="center" alignItems="center" direction="column" spacing={2}>
-            {posts && posts.map((post) => (
+            {posts && posts.filter(obj => (filter ? obj.category === filter : true)).map((post) => (
               <Post post={post} />
             ))}
           </Grid>
