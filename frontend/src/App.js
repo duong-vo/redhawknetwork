@@ -9,6 +9,7 @@ import PostIndex from './components/post/PostIndex';
 import CustomAppBar from './components/common/CustomAppBar';
 import CustomNavbar from './components/common/CustomNavbar';
 import ShowPost from './pages/ShowPost';
+import SearchResult from './pages/SearchResult';
 import { auth } from './shared/Firebase';
 import { MIAMI_DOMAIN_REGEX } from './shared/Constants';
 
@@ -58,6 +59,16 @@ const App = () => {
             )}
           </>
         )} />
+        <Route path="/search" element={(
+          <>
+            {!isLoading && authUser && (
+              <>
+                <CustomNavbar signOutHandler={signOutHandler} user={authUser} />
+                <SearchResult />
+              </>
+            )}
+          </>
+        )} />
         <Route path="/" element={(
           <>
             <Backdrop open={isLoading} style={{ zIndex: 999, color: '#fff' }}>
@@ -71,7 +82,7 @@ const App = () => {
               </>
             )}
           </>
-          )} />
+        )} />
       </Routes>
     </>
   );

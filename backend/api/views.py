@@ -1,11 +1,22 @@
 import random
 from django.shortcuts import render
 from django.http.response import JsonResponse
+from django.contrib.postgres.search import SearchVector, SearchQuery, SearchRank
 from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from .models import User, Post, Reaction, Comment
 from .serializers import UserSerializer, PostSerializer, ReactionSerializer, CommentSerializer
+
+def serialize_post(post):
+    post_data = PostSerializer(post).data
+    reactions = post.reactions.all()
+    serialized_reactions = ReactionSerializer(reactions, many=True).data
+    comments = post.comments.all()
+    serialized_comments = CommentSerializer(comments, many=True).data
+    post_data['reactions'] = serialized_reactions
+    post_data['comments'] = serialized_comments
+    return post_data
 
 # Create your views here.
 @api_view(['POST'])
@@ -24,33 +35,15 @@ def add_post(request):
 @api_view(['GET'])
 def get_posts(request):
     if request.method == 'GET':
-        posts = Post.objects.select_related('author').all()
-        serialized_posts = []
-
-        for post in posts:
-            post_data = PostSerializer(post).data
-            reactions = post.reactions.all()
-            serialized_reactions = ReactionSerializer(reactions, many=True).data
-            comments = post.comments.all()
-            serialized_comments = CommentSerializer(comments, many=True).data
-            post_data['reactions'] = serialized_reactions
-            post_data['comments'] = serialized_comments
-            serialized_posts.append(post_data)
+        posts = Post.objects.all()
+        serialized_posts = [serialize_post(post) for post in posts]
         return JsonResponse(serialized_posts, safe=False, status=status.HTTP_200_OK)
 
 @api_view(['GET'])
 def get_post(request, id):
     if request.method == 'GET':
-        print('received id = ', id)
         post = Post.objects.get(id=id)
-        reactions = post.reactions.all()
-        serialized_reactions = ReactionSerializer(reactions, many=True).data
-        comments = post.comments.all()
-        serialized_comments = CommentSerializer(comments, many=True).data
-        serialized_post = PostSerializer(post).data
-        serialized_post['reactions'] = serialized_reactions
-        serialized_post['comments'] = serialized_comments
-        print(serialized_post)
+        serialized_post = serialize_post(post)
         return JsonResponse(serialized_post, safe=False, status=status.HTTP_200_OK)
 
 @api_view(['POST'])
@@ -110,3 +103,18 @@ def add_comment(request):
         created_date = request.data['created_date']
         Comment.objects.create(user=user, post=post, content=content, created_date=created_date)
         return Response({'message': 'Comment created' }, status = status.HTTP_200_OK)
+
+@api_view(['GET'])
+def search(request):
+    if request.method == 'GET':
+        print(request.GET['query'])
+        query = request.GET['query']
+        if query:
+            vector = SearchVector('title', 'content')
+            q = SearchQuery(query)
+            posts = Post.objects.annotate(rank=SearchRank(vector, query)).filter(rank__gte=0.001).order_by('-rank')
+            serialized_posts = [serialize_post(post) for post in posts]
+            return JsonResponse(serialized_posts, safe=False, status = status.HTTP_200_OK)
+        posts = Post.objects.all()
+        serialized_posts = [serialize_post(post) for post in posts]
+        return JsonResponse(serialized_posts, safe=False, status=status.HTTP_200_OK)
