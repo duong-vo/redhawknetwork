@@ -24,7 +24,7 @@ const CustomNavbar = (props) => {
     <AppBar position="static" sx={{ backgroundColor: '#333', color: '#fff' }}>
       <Toolbar>
         <Grid container alignItems="center" justifyContent="center"> <Grid item xs={6}>
-            <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }} onClick={() => { window.location.href = "/" }}>
               RedHawk
             </Typography>
           </Grid>
@@ -33,14 +33,14 @@ const CustomNavbar = (props) => {
               <Grid item xs={4} container spacing={2}>
                 <Grid item>
                   <Typography variant="h6" sx={{}}>
-                    <Link>
+                    <Link href="/">
                       Home
                     </Link>
                   </Typography>
                 </Grid>
                 <Grid item>
                   <Typography variant="h6" sx={{}}>
-                    <Link>
+                    <Link hre="/">
                       Account
                     </Link>
                   </Typography>
