@@ -27,4 +27,5 @@ urlpatterns = [
     path('api/reaction/add', views.add_react),
     path('api/comment/add', views.add_comment),
     path('api/search/', views.search),
+    path('api/user/<int:id>', views.get_user)
 ]
