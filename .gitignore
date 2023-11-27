@@ -1,1 +1,7 @@
 .vscode/
+.env
+venv/
+node_modules/
+backend/redhawknetwork/__pycache__
+backend/api/__pycache__
+__pycache__/

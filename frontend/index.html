@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RedHawk - Home</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link href="styles.css" rel="stylesheet">
+
+    <style>
+        .grid-container {
+            display: grid;
+            grid-template-columns: 200px 1fr;
+            gap: 20px;
+            padding: 20px;
+        }
+
+        .filter-box {
+            border: 1px solid #ddd;
+            padding: 20px;
+            border-left: 1px dotted;
+        }
+
+        .main-content {
+            /* Maybe more styles? will be determined*/
+        }
+
+        .btn-vote {
+            border: none;
+            background: none;
+            cursor: pointer;
+            padding: 5px;
+            font-size: 1.2em;
+        }
+
+        .voting {
+            display: inline-block;
+            margin-left: 20px;
+        }
+
+        .vote-count {
+            padding: 0 10px;
+        }
+
+        .disabled {
+            cursor: not-allowed;
+            opacity: 0.6;
+        }
+
+        .form-check {
+            margin-bottom: 10px;
+        }
+
+        .popup-container {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            /* Ensure it's above other content */
+        }
+
+        .popup-content {
+            background: white;
+            padding: 20px;
+            border-radius: 5px;
+            width: 50%;
+            /* Or your preferred width */
+            position: relative;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            font-size: 30px;
+            cursor: pointer;
+        }
+
+    </style>
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-custom">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">RedHawk</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="account.html">Account</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="settings.html">Settings</a>
+                    </li>
+                </ul>
+                <form class="form-inline my-2 my-lg-0">
+                    <input class="form-control mr-sm-2" type="search" placeholder="Search posts..." aria-label="Search">
+                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                </form>
+                <button id="create-post-btn" class="btn btn-primary">Create Post</button>
+            </div>
+        </div>
+    </nav>
+
+    <div id="post-popup" class="popup-container" style="display: none;">
+        <div class="popup-content">
+            <span class="close-btn">&times;</span>
+            <form id="create-post-form">
+                <h2>Create a Post</h2>
+                <div class="form-group">
+                    <input type="text" id="post-title" class="form-control" placeholder="Post Title">
+                </div>
+                <div class="form-group">
+                    <textarea id="post-description" class="form-control" placeholder="Post Description"></textarea>
+                </div>
+                <button type="submit" class="btn btn-success">Add Post</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="grid-container">
+        <aside class="filter-box">
+            <h4>Filter Posts by Category</h4>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" value="" id="gaming">
+                <label class="form-check-label" for="gaming">Gaming</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" value="" id="news">
+                <label class="form-check-label" for="news">News</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" value="" id="sports">
+                <label class="form-check-label" for="news">Sports</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" value="" id="clubs">
+                <label class="form-check-label" for="news">Clubs</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" value="" id="classes">
+                <label class="form-check-label" for="news">Classes</label>
+            </div>
+        </aside>
+        <div id="add-post-form" style="display: none;">
+            <input type="text" id="post-title" placeholder="Title">
+            <textarea id="post-description" placeholder="Description"></textarea>
+        </div>
+        <div class="main-content">
+            <!-- Dynamic Posts -->
+            <article class="post">
+                <h3>First Post Title</h3>
+                <p>This is the description of the first post</p>
+                <div class="post-footer">
+                    <span>Posted by user123</span>
+                    <a href="#">20 comments</a>
+                    <div class="voting">
+                        <button class="btn-vote upvote">🔺</button>
+                        <span class="upvote-count">0</span>
+                        <button class="btn-vote downvote">🔻</button>
+                        <span class="downvote-count">0</span>
+                    </div>
+                </div>
+            </article>
+            <article class="post">
+                <h3>Second Post Title</h3>
+                <p>This is the description</p>
+                <div class="post-footer">
+                    <span>Posted by user123</span>
+                    <a href="#">20 comments</a>
+                    <div class="voting">
+                        <button class="btn-vote upvote">🔺</button>
+                        <span class="upvote-count">0</span>
+                        <button class="btn-vote downvote">🔻</button>
+                        <span class="downvote-count">0</span>
+                    </div>
+                </div>
+            </article>
+        </div>
+
+        <script>
+            var votes = {};
+
+            document.addEventListener('DOMContentLoaded', (event) => {
+                var posts = document.querySelectorAll('.post');
+                posts.forEach((post, index) => {
+                    post.id = 'post' + (index + 1);
+                    post.querySelector('.upvote').onclick = function() {
+                        vote(post.id, true);
+                    };
+                    post.querySelector('.downvote').onclick = function() {
+                        vote(post.id, false);
+                    };
+                });
+            });
+
+            function vote(postId, isUpvote) {
+                if (!votes[postId]) {
+                    votes[postId] = {
+                        hasVoted: false,
+                        upvotes: 0,
+                        downvotes: 0
+                    };
+                }
+
+                var postVotes = votes[postId];
+
+                if (postVotes.hasVoted) {
+                    return; // User has already voted, do nothing
+                }
+
+                if (isUpvote) {
+                    postVotes.upvotes += 1;
+                    document.querySelector('#' + postId + ' .upvote-count').textContent = postVotes.upvotes;
+                } else {
+                    postVotes.downvotes += 1;
+                    document.querySelector('#' + postId + ' .downvote-count').textContent = postVotes.downvotes;
+                }
+
+                postVotes.hasVoted = true;
+                document.querySelector('#' + postId + ' .upvote').classList.add('disabled');
+                document.querySelector('#' + postId + ' .downvote').classList.add('disabled');
+            }
+
+        </script>
+
+        <script>
+            document.getElementById('create-post-btn').addEventListener('click', function() {
+                document.getElementById('post-popup').style.display = 'flex';
+            });
+
+            document.querySelector('.close-btn').addEventListener('click', function() {
+                document.getElementById('post-popup').style.display = 'none';
+            });
+
+        </script>
+        <!-- Bootstrap JavaScript -->
+        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>
