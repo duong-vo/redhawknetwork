@@ -4,6 +4,7 @@ Brotli==1.0.9
 certifi==2022.12.7
 cpplint==1.6.1
 Django==4.2.7
+django-cors-headers==4.3.1
 djangorestframework==3.14.0
 macholib==1.16.3
 mutagen==1.46.0
