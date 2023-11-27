@@ -118,3 +118,9 @@ def search(request):
         posts = Post.objects.all()
         serialized_posts = [serialize_post(post) for post in posts]
         return JsonResponse(serialized_posts, safe=False, status=status.HTTP_200_OK)
+
+@api_view(['GET'])
+def get_user(request, id):
+    user = User.object.get(id=id)
+    serialized_user = serialize_user(user)
+    return JsonResponse(serialized_user, safe=False, status=status.HTTP_200_OK)
