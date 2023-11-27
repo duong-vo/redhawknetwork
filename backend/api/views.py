@@ -70,6 +70,7 @@ def add_user(request):
 @api_view(['POST'])
 def add_react(request):
     if request.method == 'POST':
+        print(request.data)
         uid = request.data['uid']
         post_id = request.data['post_id']
         type = request.data['type']
@@ -80,7 +81,7 @@ def add_react(request):
             existing_reaction = Reaction.objects.get(user=user, post=post)
 
             # If the existing reaction is of the same type, delete it (toggle off)
-            if existing_reaction.reaction_type == type:
+            if type=='delete':
                 existing_reaction.delete()
             else:
                 # If the existing reaction is of a different type, update it (toggle on)
