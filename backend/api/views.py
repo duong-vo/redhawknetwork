@@ -120,8 +120,15 @@ def search(request):
         serialized_posts = [serialize_post(post) for post in posts]
         return JsonResponse(serialized_posts, safe=False, status=status.HTTP_200_OK)
 
-@api_view(['GET'])
-def get_user(request, id):
-    user = User.object.get(id=id)
-    serialized_user = serialize_user(user)
-    return JsonResponse(serialized_user, safe=False, status=status.HTTP_200_OK)
+@api_view(['GET', 'PUT'])
+def get_user(request, uid):
+    if request.method == 'GET':
+        user = User.objects.get(id=uid)
+        serialized_user = UserSerializer(user).data
+        return JsonResponse(serialized_user, safe=False, status=status.HTTP_200_OK)
+    elif request.method == 'PUT':
+        new_username = request.data['username']
+        user = User.objects.get(id=uid)
+        user.username = new_username
+        user.save()
+        return Response({'message': 'User updated'}, status=status.HTTP_200_OK)

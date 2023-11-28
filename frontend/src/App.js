@@ -10,6 +10,7 @@ import CustomAppBar from './components/common/CustomAppBar';
 import CustomNavbar from './components/common/CustomNavbar';
 import ShowPost from './pages/ShowPost';
 import SearchResult from './pages/SearchResult';
+import ShowAccount from './pages/ShowAccount';
 import { auth } from './shared/Firebase';
 import { MIAMI_DOMAIN_REGEX } from './shared/Constants';
 
@@ -19,7 +20,7 @@ const App = () => {
   useEffect(() => {
     onAuthStateChanged(auth, async (user) => {
       console.log('user = ', user);
-      if (user && MIAMI_DOMAIN_REGEX.test(user.email)) {
+      if (user &&  MIAMI_DOMAIN_REGEX.test(user.email)) {
         const token = await user.getIdToken();
         document.cookie = `token=${token}`;
         axios({
@@ -83,6 +84,21 @@ const App = () => {
             )}
           </>
         )} />
+        <Route path="/users/:id" element={(
+          <>
+            <Backdrop open={isLoading} style={{ zIndex: 999, color: '#fff' }}>
+              <CircularProgress color="inherit" />
+            </Backdrop>
+            {!isLoading && !authUser && <UserSignIn />}
+            {!isLoading && authUser && (
+              <>
+                <CustomNavbar signOutHandler={signOutHandler} user={authUser} />
+                <ShowAccount />
+              </>
+            )}
+          </>
+        )} />
+
       </Routes>
     </>
   );
