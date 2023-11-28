@@ -10,6 +10,7 @@ import {
 import { auth } from '../../shared/Firebase';
 import { CATEGORY_LABELS } from '../../shared/Constants';
 
+// TODO: Make this code cleaner and simpler
 const Post = (props) => {
   const { post } = props;
   console.log('each post = ', post);
@@ -27,83 +28,40 @@ const Post = (props) => {
         if (userLiked) {
           setLikeCount(likeCount - 1); // Remove the like
           setUserLiked(false);
-          axios({
-            url: 'http://localhost:8000/api/reaction/add',
-            method: 'POST',
-            data: {
-              uid: currentUser.uid,
-              post_id: post.id,
-              type: 'delete',
-            }
-          });
+          type = 'delete';
         } else if (userDisliked) {
           setLikeCount(likeCount + 1); // Increase the like after unliking
           setDislikeCount(dislikeCount - 1); // Decrease the dislike
           setUserLiked(true);
           setUserDisliked(false);
-          axios({
-            url: 'http://localhost:8000/api/reaction/add',
-            method: 'POST',
-            data: {
-              uid: currentUser.uid,
-              post_id: post.id,
-              type: 'like',
-            }
-          });
         } else {
           setLikeCount(likeCount + 1); // Add the like
           setUserLiked(true);
-          axios({
-            url: 'http://localhost:8000/api/reaction/add',
-            method: 'POST',
-            data: {
-              uid: currentUser.uid,
-              post_id: post.id,
-              type: 'like',
-            }
-          });
         }
       } else if (type === 'dislike') {
         if (userDisliked) {
           setDislikeCount(dislikeCount - 1); // Remove the dislike
           setUserDisliked(false);
-          axios({
-            url: 'http://localhost:8000/api/reaction/add',
-            method: 'POST',
-            data: {
-              uid: currentUser.uid,
-              post_id: post.id,
-              type: 'delete',
-            }
-          });
+          type = 'delete';
         } else if (userLiked) {
           setDislikeCount(dislikeCount + 1); // Increase the dislike after un-disliking
           setLikeCount(likeCount - 1); // Decrease the like
           setUserDisliked(true);
           setUserLiked(false);
-          axios({
-            url: 'http://localhost:8000/api/reaction/add',
-            method: 'POST',
-            data: {
-              uid: currentUser.uid,
-              post_id: post.id,
-              type: 'dislike',
-            }
-          });
         } else {
           setDislikeCount(dislikeCount + 1); // Add the dislike
           setUserDisliked(true);
-          axios({
-            url: 'http://localhost:8000/api/reaction/add',
-            method: 'POST',
-            data: {
-              uid: currentUser.uid,
-              post_id: post.id,
-              type: 'dislike',
-            }
-          });
         }
       }
+      axios({
+        url: 'http://localhost:8000/api/reaction/add',
+        method: 'POST',
+        data: {
+          uid: currentUser.uid,
+          post_id: post.id,
+          type: type,
+        }
+      });
     }
     catch (error) {
       console.error('Error adding reaction:', error);
