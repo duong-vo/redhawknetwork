@@ -28,4 +28,5 @@ urlpatterns = [
     path('api/comment/add', views.add_comment),
     path('api/search/', views.search),
     path('api/users/<str:uid>', views.get_user),
+    path('api/follow', views.follow),
 ]

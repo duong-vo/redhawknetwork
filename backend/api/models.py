@@ -7,8 +7,8 @@ class User(models.Model):
     email = models.EmailField()
 
 class UserFollowing(models.Model):
-    uid = models.ForeignKey(User, on_delete=models.CASCADE, related_name="following")
-    following_user_id = models.ForeignKey(User, on_delete=models.CASCADE, related_name="followers")
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="following")
+    following_user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="followers")
 
 class Post(models.Model):
     GAMING = 'GAMING'
