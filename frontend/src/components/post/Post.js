@@ -10,48 +10,35 @@ import {
 import { auth } from '../../shared/Firebase';
 import { CATEGORY_LABELS } from '../../shared/Constants';
 
-// TODO: Make this code cleaner and simpler
 const Post = (props) => {
   const { post } = props;
   console.log('each post = ', post);
   const { id, title, content, author, reactions, comments, category } = post;
   const currentUser = auth.currentUser;
-  const [likeCount, setLikeCount] = useState(reactions.filter(reaction => reaction.reaction_type === 'like').length);
-  const [dislikeCount, setDislikeCount] = useState(reactions.filter(reaction => reaction.reaction_type === 'dislike').length);
-  const [userLiked, setUserLiked] = useState(reactions.some(reaction => reaction.user_id === currentUser?.uid && reaction.reaction_type === 'like'));
-  const [userDisliked, setUserDisliked] = useState(reactions.some(reaction => reaction.user_id === currentUser?.uid && reaction.reaction_type === 'dislike'));
+  var currentReaction = [];
+  var updateReaction = [];
+  var reactionCount = [];
+  var setReactionCount = [];
+  [reactionCount['like'], setReactionCount['like']] = useState(reactions.filter(reaction => reaction.reaction_type === 'like').length);
+  [reactionCount['dislike'], setReactionCount['dislike']] = useState(reactions.filter(reaction => reaction.reaction_type === 'dislike').length);
+  [currentReaction['like'], updateReaction['like']] = useState(reactions.some(reaction => reaction.user_id === currentUser?.uid && reaction.reaction_type === 'like'));
+  [currentReaction['dislike'], updateReaction['dislike']] = useState(reactions.some(reaction => reaction.user_id === currentUser?.uid && reaction.reaction_type === 'dislike'));
 
   const handleReactionClick = (type) => {
     try {
       // Toggle the reaction based on the user's current reactions
-      if (type === 'like') {
-        if (userLiked) {
-          setLikeCount(likeCount - 1); // Remove the like
-          setUserLiked(false);
-          type = 'delete';
-        } else if (userDisliked) {
-          setLikeCount(likeCount + 1); // Increase the like after unliking
-          setDislikeCount(dislikeCount - 1); // Decrease the dislike
-          setUserLiked(true);
-          setUserDisliked(false);
-        } else {
-          setLikeCount(likeCount + 1); // Add the like
-          setUserLiked(true);
+      var notType = (type === 'like') ? 'dislike' : 'like';
+      if(currentReaction[type]) {
+        setReactionCount[type](reactionCount[type] - 1);
+        updateReaction[type](false);
+        type = 'delete';
+      } else {
+        if (currentReaction[notType]) {
+          updateReaction[notType](false);
+          setReactionCount[notType](reactionCount[notType] - 1);
         }
-      } else if (type === 'dislike') {
-        if (userDisliked) {
-          setDislikeCount(dislikeCount - 1); // Remove the dislike
-          setUserDisliked(false);
-          type = 'delete';
-        } else if (userLiked) {
-          setDislikeCount(dislikeCount + 1); // Increase the dislike after un-disliking
-          setLikeCount(likeCount - 1); // Decrease the like
-          setUserDisliked(true);
-          setUserLiked(false);
-        } else {
-          setDislikeCount(dislikeCount + 1); // Add the dislike
-          setUserDisliked(true);
-        }
+        updateReaction[type](true);
+        setReactionCount[type](reactionCount[type] + 1);
       }
       axios({
         url: 'http://localhost:8000/api/reaction/add',
@@ -81,11 +68,11 @@ const Post = (props) => {
           <Button className="btn-vote upvote" onClick={m => handleReactionClick('like')}>
             🔺
           </Button>
-          <span className="upvote-count"> {likeCount} </span>
+          <span className="upvote-count"> {reactionCount['like']} </span>
           <Button className="btn-vote downvote" onClick={() => handleReactionClick('dislike')}>
             🔻
           </Button>
-          <span className="downvote-count"> {dislikeCount} </span>
+          <span className="downvote-count"> {reactionCount['dislike']} </span>
         </div>
       </CardActions>
     </Card>
