@@ -1,11 +1,15 @@
 from rest_framework import serializers
-from .models import User, Post, Reaction, Comment
+from .models import User ,UserFollowing, Post, Reaction, Comment
 
-#TODO: Make work with followers/following
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = '__all__'
+
+class UserFollowingSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = UserFollowing
+        fields = ['following_user']
 
 class PostSerializer(serializers.ModelSerializer):
     author = UserSerializer()

@@ -5,8 +5,8 @@ from django.contrib.postgres.search import SearchVector, SearchQuery, SearchRank
 from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from .models import User, Post, Reaction, Comment
-from .serializers import UserSerializer, PostSerializer, ReactionSerializer, CommentSerializer
+from .models import User, Post, Reaction, Comment, UserFollowing
+from .serializers import UserSerializer, UserFollowingSerializer, PostSerializer, ReactionSerializer, CommentSerializer
 
 def serialize_post(post):
     post_data = PostSerializer(post).data
@@ -17,6 +17,16 @@ def serialize_post(post):
     post_data['reactions'] = serialized_reactions
     post_data['comments'] = serialized_comments
     return post_data
+
+def serialize_user(user):
+    user_data = UserSerializer(user).data
+    followers = user.followers.all()
+    following = user.following.all()
+    serialized_followers = UserFollowingSerializer(followers, many=True).data
+    serialized_following = UserFollowingSerializer(following, many=True).data
+    user_data['followers'] = serialized_followers
+    user_data['following'] = serialized_following
+    return user_data
 
 # Create your views here.
 @api_view(['POST'])
@@ -124,7 +134,7 @@ def search(request):
 def get_user(request, uid):
     if request.method == 'GET':
         user = User.objects.get(id=uid)
-        serialized_user = UserSerializer(user).data
+        serialized_user = serialize_user(user)
         return JsonResponse(serialized_user, safe=False, status=status.HTTP_200_OK)
     elif request.method == 'PUT':
         new_username = request.data['username']
@@ -132,3 +142,17 @@ def get_user(request, uid):
         user.username = new_username
         user.save()
         return Response({'message': 'User updated'}, status=status.HTTP_200_OK)
+
+@api_view(['POST'])
+def follow(request):
+    if request.method == 'POST':
+        uid = request.data['uid']
+        user = User.objects.get(id=uid)
+        follow_uid = request.data['follow_uid']
+        follow_user = User.objects.get(id=follow_uid)
+        try:
+            user_follow = UserFollowing.objects.get(user=user, following_user=follow_user)
+            user_follow.delete()
+        except:
+            UserFollowing.objects.create(user=user, following_user=follow_user)
+        return Response({'message': 'Follow successfully'}, status=status.HTTP_200_OK)
