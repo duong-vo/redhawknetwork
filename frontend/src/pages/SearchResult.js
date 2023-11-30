@@ -20,11 +20,13 @@ const SearchResult = () => {
   }, []);
 
   return (
-      <Grid container justifyContent="center" alignItems="center" direction="column" spacing={2}>
-        {posts && posts.map((post) => (
+    <Grid container justifyContent="center" alignItems="center" direction="column" spacing={2}>
+      {posts && posts.map((post) => (
+        <Grid item>
           <Post post={post} />
-        ))}
-      </Grid>
+        </Grid>
+      ))}
+    </Grid>
   );
 }
 

@@ -20,12 +20,15 @@ def serialize_post(post):
 
 def serialize_user(user):
     user_data = UserSerializer(user).data
+    posts = user.posts.all()
     followers = user.followers.all()
     following = user.following.all()
+    serialized_posts = [serialize_post(post) for post in posts]
     serialized_followers = UserFollowingSerializer(followers, many=True).data
     serialized_following = UserFollowingSerializer(following, many=True).data
     user_data['followers'] = serialized_followers
     user_data['following'] = serialized_following
+    user_data['posts'] = serialized_posts
     return user_data
 
 # Create your views here.

@@ -43,6 +43,7 @@ const PostIndex = (props) => {
               {CATEGORIES.map(category => (
                 <FormControlLabel value={category} control={<Radio />} label={CATEGORY_LABELS[category]} />
               ))}
+              <FormControlLabel value={''} control={<Radio />} label="None" />
               </RadioGroup>
             </FormControl>
         </Paper>
@@ -53,9 +54,11 @@ const PostIndex = (props) => {
           <TextField id="post-description" label="Description" multiline rows={4} fullWidth />
         </div>
         <div className="main-content">
-          <Grid container justifyContent="center" alignItems="center" direction="column" spacing={2}>
+          <Grid container justifyContent="center" alignItems="center" direction="column" spacing={3}>
             {posts && posts.filter(obj => (filter ? obj.category === filter : true)).map((post) => (
-              <Post post={post} />
+              <Grid item>
+                <Post post={post} />
+              </Grid>
             ))}
           </Grid>
         </div>
