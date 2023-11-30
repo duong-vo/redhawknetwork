@@ -3,6 +3,7 @@ import withStyles from '@mui/styles/withStyles';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import {
+  Avatar,
   AppBar,
   Toolbar,
   Typography,
@@ -15,7 +16,10 @@ import {
   Modal,
   TextField,
   makeStyles,
+  Grid,
 } from '@mui/material';
+import { auth } from '../shared/Firebase';
+import Post from '../components/post/Post';
 import SearchIcon from '@mui/icons-material/Search';
 import AddIcon from '@mui/icons-material/Add';
 
@@ -36,10 +40,11 @@ const styles =(theme) => ({
     alignItems: 'center',
   },
   profilePhoto: {
-    height: '100px',
     width: '100px',
+    height: '100px',
     borderRadius: '50%',
-    marginRight: theme.spacing(2),
+    objectFit: 'cover',
+    marginBottom: '20px',
   },
   editAccountModal: {
     display: 'flex',
@@ -59,6 +64,8 @@ const ShowAccount = (props) => {
   const { id } = useParams();
   const { classes } = props;
   const [user, setUser] = useState(null);
+  console.log('user = ', user);
+  const currentUser = auth.currentUser;
   const [newUsername, setNewUsername] = useState('');
   const [editModalOpen, setEditModalOpen] = useState(false);
 
@@ -79,7 +86,16 @@ const ShowAccount = (props) => {
   };
 
   const followUser = () => {
-    // Implement followUser logic
+    axios({
+      url: 'http://localhost:8000/api/follow',
+      method: 'POST',
+      data: {
+        uid: currentUser.uid,
+        follow_uid: user.id,
+      },
+    }).then(() => {
+      window.location.reload();
+    });
   };
 
   useEffect(() => {
@@ -91,6 +107,9 @@ const ShowAccount = (props) => {
       setNewUsername(response.data.username);
     });
   }, []);
+  const isFollowing = user && user.followers.some((obj) => (
+    user && (obj.following_user == user.id)
+  ));
 
   return (
     <>
@@ -100,43 +119,49 @@ const ShowAccount = (props) => {
             <div className={classes.profileCard}>
               <Card>
                 <CardContent>
-                  <div className={classes.profileHeader}>
-                    <img src="profile_picture.jpg" alt="User Profile" className={classes.profilePhoto} />
-                    <div>
-                      <Typography variant="h5">{user.username}</Typography>
-                      <Button color="secondary" onClick={() => setEditModalOpen(true)}>
-                        Edit Account
-                      </Button>
-                      <Button className={classes.followBtn} onClick={followUser}>
-                        Follow
-                      </Button>
-                    </div>
-                  </div>
-                  <Typography>
-                    <strong>Followers:</strong> 1234
-                  </Typography>
-                  <Typography>
-                    <strong>Following:</strong> 567
-                  </Typography>
-                  {/* Additional user information here */}
+                  <Grid container direction="column" alignItems="center" justifyContent="center">
+                    <Grid item>
+                      <Avatar src="profile_picture.jpg" alt={user.username} className={classes.profilePhoto} />
+                    </Grid>
+                    <Grid item>
+                      <Typography variant="h3" sx={{ marginBottom: '16px' }}>{user.username}</Typography>
+                    </Grid>
+                    <Grid item sx={{ marginBottom: '16px' }}>
+                      {user.id === currentUser.uid ? (
+                        <Button variant="outlined" color="primary" className={classes.followBtn} onClick={() => setEditModalOpen(true)}>
+                          Edit Account
+                        </Button>
+
+                      ) : isFollowing ? (
+                        <Button className={classes.followBtn} onClick={followUser}>
+                          Unfollow
+                        </Button>
+                      ): (
+                        <Button className={classes.followBtn} onClick={followUser}>
+                          Follow
+                        </Button>
+                      )}
+                    </Grid>
+                    <Typography>
+                      <strong>Followers:</strong> {user.followers.length}
+                    </Typography>
+                    <Typography>
+                      <strong>Following:</strong> {user.following.length}
+                    </Typography>
+                  </Grid>
                 </CardContent>
               </Card>
             </div>
-
-            <div className={classes.userPosts}>
-              <Typography variant="h6">User's Posts</Typography>
-              {/* Iterate over user posts and display them */}
-              <div className={classes.post}>
-                <Typography variant="subtitle1">Post Title 1</Typography>
-                <Typography>Post description...</Typography>
-                {/* Additional post details */}
-              </div>
-              <div className={classes.post}>
-                <Typography variant="subtitle1">Post Title 2</Typography>
-                <Typography>Another post description...</Typography>
-                {/* Additional post details */}
-              </div>
-            </div>
+            <Typography variant="h4">
+              User's Posts
+            </Typography>
+            <Grid container justifyContent="center" alignItems="center" direction="column" spacing={2}>
+              {user.posts && user.posts.map((post) => (
+                <Grid item>
+                  <Post post={post} />
+                </Grid>
+              ))}
+            </Grid>
           </Container>
 
           {/* Edit Account Modal */}

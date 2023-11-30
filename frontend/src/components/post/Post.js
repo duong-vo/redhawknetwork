@@ -5,6 +5,7 @@ import {
   CardActions,
   CardContent,
   Typography,
+  Link,
   Button,
 } from '@mui/material';
 import { auth } from '../../shared/Firebase';
@@ -62,7 +63,11 @@ const Post = (props) => {
         <Typography variant="body1"> {content} </Typography>
       </CardContent>
       <CardActions>
-        <span>Posted by {author.username} </span>
+        <span>Posted by 
+          <Link href={"/users/" + author.id}>
+            {author.username}
+          </Link>
+        </span>
         <a href="#">{comments && comments.length} comment(s)</a>
         <div className="voting">
           <Button className="btn-vote upvote" onClick={m => handleReactionClick('like')}>

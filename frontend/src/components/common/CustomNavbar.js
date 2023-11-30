@@ -40,7 +40,7 @@ const CustomNavbar = (props) => {
                 </Grid>
                 <Grid item>
                   <Typography variant="h6" sx={{}}>
-                    <Link hre="/">
+                    <Link href={"/users/" + user.uid}>
                       Account
                     </Link>
                   </Typography>
