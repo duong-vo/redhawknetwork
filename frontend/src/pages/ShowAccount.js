@@ -6,6 +6,7 @@ import {
   Avatar,
   AppBar,
   Toolbar,
+  Divider,
   Typography,
   Button,
   IconButton,
@@ -20,6 +21,7 @@ import {
 } from '@mui/material';
 import { auth } from '../shared/Firebase';
 import Post from '../components/post/Post';
+import { truncateString } from '../shared/Helper';
 import SearchIcon from '@mui/icons-material/Search';
 import AddIcon from '@mui/icons-material/Add';
 
@@ -52,7 +54,7 @@ const styles =(theme) => ({
     justifyContent: 'center',
   },
   modalContent: {
-    width: '300px',
+    width: '400px',
     backgroundColor: theme.palette.background.paper,
     border: '2px solid #000',
     boxShadow: theme.shadows[5],
@@ -110,6 +112,9 @@ const ShowAccount = (props) => {
   const isFollowing = user && user.followers.some((obj) => (
     user && (obj.following_user == user.id)
   ));
+  const deviceWidth = window.innerWidth;
+  const averageCharWidth = 20;
+  const maxChars = Math.floor(deviceWidth / averageCharWidth);
 
   return (
     <>
@@ -155,33 +160,40 @@ const ShowAccount = (props) => {
             <Typography variant="h4">
               User's Posts
             </Typography>
-            <Grid container justifyContent="center" alignItems="center" direction="column" spacing={2}>
+            <Grid container justifyContent="center" alignItems="center" spacing={2} >
               {user.posts && user.posts.map((post) => (
-                <Grid item>
-                  <Post post={post} />
+                <Grid item xs={6}>
+                  <Post post={post} content={truncateString(post.content, maxChars)} />
                 </Grid>
               ))}
             </Grid>
           </Container>
 
-          {/* Edit Account Modal */}
           <Modal open={editModalOpen} onClose={() => setEditModalOpen(false)} className={classes.editAccountModal}>
             <div className={classes.modalContent}>
-              <Typography variant="h6" id="editAccountModalLabel">
-                Edit Account
-              </Typography>
-              <TextField
-                id="username"
-                label="New Username"
-                variant="outlined"
-                fullWidth
-                value={newUsername}
-                onChange={(e) => setNewUsername(e.target.value)}
-              />
-              <Button variant="contained" color="primary" fullWidth onClick={handleSubmit}>
-                Save changes
-              </Button>
-            </div>
+              <Grid container direciton="column" spacing={5}>
+                <Grid item>
+                  <Typography variant="h6" id="editAccountModalLabel">
+                    Edit Account
+                  </Typography>
+                </Grid>
+                <Grid item>
+                  <TextField
+                    id="username"
+                    label="New Username"
+                    variant="outlined"
+                    fullWidth
+                    value={newUsername}
+                    onChange={(e) => setNewUsername(e.target.value)}
+                  />
+                </Grid>
+                <Grid item align="flex-end">
+                  <Button variant="contained" color="primary" fullWidth onClick={handleSubmit}>
+                    Save changes
+                  </Button>
+                </Grid>
+              </Grid>
+              </div>
           </Modal>
         </div>
       )}

@@ -12,7 +12,7 @@ def serialize_post(post):
     post_data = PostSerializer(post).data
     reactions = post.reactions.all()
     serialized_reactions = ReactionSerializer(reactions, many=True).data
-    comments = post.comments.all()
+    comments = post.comments.all().order_by('-created_date')
     serialized_comments = CommentSerializer(comments, many=True).data
     post_data['reactions'] = serialized_reactions
     post_data['comments'] = serialized_comments
@@ -48,7 +48,7 @@ def add_post(request):
 @api_view(['GET'])
 def get_posts(request):
     if request.method == 'GET':
-        posts = Post.objects.all()
+        posts = Post.objects.all().order_by('-created_date')
         serialized_posts = [serialize_post(post) for post in posts]
         return JsonResponse(serialized_posts, safe=False, status=status.HTTP_200_OK)
 
