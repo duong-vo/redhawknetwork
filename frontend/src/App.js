@@ -34,6 +34,7 @@ const App = () => {
           user.username = response.data.username;
           console.log('user = ', user);
           setAuthUser(user);
+          setIsLoading(false);
         }).catch(() => {
           console.log('sum ting wong');
         });
@@ -41,7 +42,6 @@ const App = () => {
         document.cookie = '';
         setAuthUser(null);
       }
-      setIsLoading(false);
     });
   }, []);
   const signOutHandler = () => {
