@@ -58,7 +58,7 @@ const PostIndex = (props) => {
           <TextField id="post-description" label="Description" multiline rows={4} fullWidth />
         </div>
         <div className="main-content">
-          <Grid container justifyContent="center" alignItems="center">
+          <Grid container justifyContent="center" alignItems="center" spacing={2}>
             {posts && posts.filter(obj => (filter ? obj.category === filter : true)).length > 0 ? posts.filter(obj => (filter ? obj.category === filter : true)).map((post) => (
               <Grid item xs={6}>
                 <Post post={post} content={truncateString(post.content, maxChars)} />
