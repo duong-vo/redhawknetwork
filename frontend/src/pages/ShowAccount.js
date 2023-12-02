@@ -13,12 +13,18 @@ import {
   InputBase,
   Container,
   Card,
+  CardHeader,
+  CardActions,
   CardContent,
   Modal,
   TextField,
   makeStyles,
   Grid,
+  Dialog,
+  DialogTitle,
+  DialogContent,
 } from '@mui/material';
+import CloseIcon from '@mui/icons-material/Close';
 import { auth } from '../shared/Firebase';
 import Post from '../components/post/Post';
 import { truncateString } from '../shared/Helper';
@@ -70,6 +76,11 @@ const ShowAccount = (props) => {
   const currentUser = auth.currentUser;
   const [newUsername, setNewUsername] = useState('');
   const [editModalOpen, setEditModalOpen] = useState(false);
+
+  const handleClose = () => {
+    setEditModalOpen(false);
+    window.location.reload();
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -169,32 +180,31 @@ const ShowAccount = (props) => {
             </Grid>
           </Container>
 
-          <Modal open={editModalOpen} onClose={() => setEditModalOpen(false)} className={classes.editAccountModal}>
-            <div className={classes.modalContent}>
-              <Grid container direciton="column" spacing={5}>
+          <Dialog open={editModalOpen} onClose={handleClose} maxWidth="sm" fullWidth>
+            <DialogTitle>
+              <IconButton edge="end" color="inherit" onClick={handleClose} aria-label="close">
+                <CloseIcon />
+              </IconButton>
+            </DialogTitle>
+            <DialogContent>
+              <TextField
+                id="username"
+                label="New Username"
+                variant="outlined"
+                fullWidth
+                value={newUsername}
+                onChange={(e) => setNewUsername(e.target.value)}
+                sx={{ marginTop: 1 }}
+              />
+              <Grid container justifyContent="flex-end" alignItems="flex-end" sx={{ marginTop: 2 }}>
                 <Grid item>
-                  <Typography variant="h6" id="editAccountModalLabel">
-                    Edit Account
-                  </Typography>
-                </Grid>
-                <Grid item>
-                  <TextField
-                    id="username"
-                    label="New Username"
-                    variant="outlined"
-                    fullWidth
-                    value={newUsername}
-                    onChange={(e) => setNewUsername(e.target.value)}
-                  />
-                </Grid>
-                <Grid item align="flex-end">
                   <Button variant="contained" color="primary" fullWidth onClick={handleSubmit}>
                     Save changes
                   </Button>
                 </Grid>
               </Grid>
-              </div>
-          </Modal>
+            </DialogContent>
+          </Dialog>
         </div>
       )}
     </>

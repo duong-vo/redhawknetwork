@@ -79,7 +79,7 @@ const Post = (props) => {
         )}
       />
       <CardContent onClick={() => { window.location.href = '/posts/' + id; }} sx={{ cursor: 'pointer' }}>
-        <Typography variant="body1" sx={{ color: '#94969b' }}> {content} </Typography>
+        <Typography variant={single ? "h6" : "body1"} sx={{ color: !single && '#94969b' }}> {content} </Typography>
       </CardContent>
       <CardActions>
         <Grid container justifyContent="center" alignItems="center" sx = {{ paddingLeft: !single && 1 }}>

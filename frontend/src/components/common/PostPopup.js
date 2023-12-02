@@ -103,9 +103,13 @@ const PostPopup = ({ open, handleClose, user }) => {
               fullWidth
             />
           </div>
-          <Button disabled={isSubmitDisabled} type="submit" variant="contained" color="success">
-            Add Post
-          </Button>
+          <Grid container justifyContent="flex-end" alignItems="flex-end">
+            <Grid item>
+              <Button disabled={isSubmitDisabled} type="submit" variant="contained" color="success">
+                Add Post
+              </Button>
+            </Grid>
+          </Grid>
         </form>
       </DialogContent>
     </Dialog>
