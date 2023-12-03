@@ -12,7 +12,7 @@ This repository contains the source code for a web application built with Django
 
 ### Prerequisites
 Make sure you have the following installed on your system:
-- [Python](https://www.python.org/) (>=3.6)
+- [Python](https://www.python.org/downloads/release/python-3100/) (>=3.6)
 - [Django](https://www.djangoproject.com/)
 - [Node.js](https://nodejs.org/)
 - [Yarn](https://yarnpkg.com/)
@@ -20,8 +20,8 @@ Make sure you have the following installed on your system:
 ### Setup
 1. **Clone the repository:**
    ```bash
-   git clone https://github.com/your-username/your-repo.git
-   cd your-repo
+   git clone https://github.com/duong-vo/redhawknetwork
+   cd redhawknetwork
    ```
 2. **Setup the Django backend**
     Open one terminal and run the following commands
