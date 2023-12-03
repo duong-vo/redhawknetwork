@@ -16,35 +16,40 @@ import { MIAMI_DOMAIN_REGEX } from './shared/Constants';
 
 const App = () => {
   const [authUser, setAuthUser] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   useEffect(() => {
-    onAuthStateChanged(auth, async (user) => {
-      console.log('user = ', user);
-      if (user &&  MIAMI_DOMAIN_REGEX.test(user.email)) {
-        setIsLoading(true);
-        const token = await user.getIdToken();
-        document.cookie = `token=${token}`;
-        axios({
-          url: 'http://localhost:8000/api/user/add',
-          method: 'post',
-          data: {
-            id: user.uid,
-            email: user.email,
-          },
-        }).then((response) => {
-          user.username = response.data.username;
-          console.log('user = ', user);
-          setAuthUser(user);
+    const fetchData = async () => {
+      setIsLoading(true);
+      onAuthStateChanged(auth, async (user) => {
+        if (user &&  MIAMI_DOMAIN_REGEX.test(user.email)) {
+          const token = await user.getIdToken();
+          document.cookie = `token=${token}`;
+          axios({
+            url: 'http://localhost:8000/api/user/add',
+            method: 'post',
+            data: {
+              id: user.uid,
+              email: user.email,
+            },
+          }).then((response) => {
+            user.username = response.data.username;
+            console.log('user = ', user);
+            setIsLoading(false);
+            setAuthUser(user);
+            setIsLoading(false);
+          }).catch(() => {
+            console.log('sum ting wong');
+          });
+        } else {
+          document.cookie = '';
+          setAuthUser(null);
           setIsLoading(false);
-        }).catch(() => {
-          console.log('sum ting wong');
-        });
-      } else {
-        document.cookie = '';
-        setAuthUser(null);
-      }
-    });
+        }
+      });
+    };
+    fetchData();
   }, []);
+  
   const signOutHandler = () => {
     signOut(auth);
   };

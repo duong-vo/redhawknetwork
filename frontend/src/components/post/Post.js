@@ -14,7 +14,7 @@ import { auth } from '../../shared/Firebase';
 import { CATEGORY_LABELS } from '../../shared/Constants';
 
 const Post = (props) => {
-  const { post, content, single } = props;
+  const { post, content, single, multiple } = props;
   console.log('each post = ', post);
   const { id, title, author, reactions, comments, category, created_date: createdDate } = post;
   const currentUser = auth.currentUser;
@@ -74,7 +74,7 @@ const Post = (props) => {
         subheader={CATEGORY_LABELS[category]}
         onClick={() => { window.location.href = '/posts/' + id; }}
         sx={{ cursor: 'pointer' }}
-        action={!single && isAfterTenMin(new Date(createdDate)) && (
+        action={multiple && isAfterTenMin(new Date(createdDate)) && (
           <div style={{ backgroundColor: '#da3238', color: 'white', padding: 5 }}>NEW</div>
         )}
       />
