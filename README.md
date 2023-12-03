@@ -13,9 +13,8 @@ This repository contains the source code for a web application built with Django
 ### Prerequisites
 Make sure you have the following installed on your system:
 - [Python](https://www.python.org/downloads/release/python-3100/) (>=3.6)
-- [Django](https://www.djangoproject.com/)
-- [Node.js](https://nodejs.org/)
-- [Yarn](https://yarnpkg.com/)
+- [Node.js](https://nodejs.org/en/download/)
+- [Yarn](https://classic.yarnpkg.com/lang/en/docs/install/#mac-stable)
 
 ### Setup
 1. **Clone the repository:**
