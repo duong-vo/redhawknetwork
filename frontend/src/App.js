@@ -16,11 +16,12 @@ import { MIAMI_DOMAIN_REGEX } from './shared/Constants';
 
 const App = () => {
   const [authUser, setAuthUser] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   useEffect(() => {
     onAuthStateChanged(auth, async (user) => {
       console.log('user = ', user);
       if (user &&  MIAMI_DOMAIN_REGEX.test(user.email)) {
+        setIsLoading(true);
         const token = await user.getIdToken();
         document.cookie = `token=${token}`;
         axios({
