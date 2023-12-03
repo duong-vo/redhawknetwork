@@ -23,7 +23,7 @@ Make sure you have the following installed on your system:
    git clone https://github.com/duong-vo/redhawknetwork
    cd redhawknetwork
    ```
-2. **Setup the Django backend**
+2. **Setup the Django backend:**\
     Open one terminal and run the following commands
     ```bash
     cd backend
@@ -33,7 +33,7 @@ Make sure you have the following installed on your system:
     python manage.py migrate
     python manage.py runserver
     ```
-3. **Setup the React frontend**
+3. **Setup the React frontend:**\
     Open a different terminal and run the following commands
     ```bash
     yarn install
