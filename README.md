@@ -22,10 +22,8 @@ Make sure you have the following installed on your system:
    ```bash
    git clone https://github.com/your-username/your-repo.git
    cd your-repo
-
-
-## Set up the Django Backend:
-
+2. **Setup the Django backend**
+Open one terminal and run the following command
 ```bash
 cd backend
 python -m venv venv
@@ -33,3 +31,5 @@ source venv/bin/activate  # On Windows, use `venv\Scripts\activate`
 pip install -r requirements.txt
 python manage.py migrate
 python manage.py runserver
+
+3. **Setup the React frontend**
