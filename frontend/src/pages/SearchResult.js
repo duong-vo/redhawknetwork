@@ -24,9 +24,9 @@ const SearchResult = () => {
   const maxChars = Math.floor(deviceWidth / averageCharWidth);
 
   return (
-    <Grid container justifyContent="center" alignItems="center" direction="column" spacing={2} sx={{ padding: 4 }}>
+    <Grid container justifyContent="center" alignItems="center" spacing={2} sx={{ padding: 4 }}>
       {posts && posts.length > 0 ? posts.map((post) => (
-        <Grid item>
+        <Grid item xs={6}>
           <Post post={post} content={truncateString(post.content, maxChars)} />
         </Grid>
       )) :
