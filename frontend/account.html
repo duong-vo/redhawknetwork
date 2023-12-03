@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Profile - RedHawk</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link href="s.css" rel="stylesheet">
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-custom">
+        <div class="container">
+            <img src="redhawk_logo.png" alt="Logo" style="height: 40px; width: 40px; margin-right: 10px;">
+            <a class="navbar-brand" href="index.html">RedHawk</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="account.html">Account</a>
+                    </li>
+                </ul>
+                <form class="form-inline my-2 my-lg-0">
+                    <input class="form-control mr-sm-2" type="search" placeholder="Search posts..." aria-label="Search">
+                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                </form>
+                <button id="create-post-btn" class="btn btn-primary">Create Post</button>
+            </div>
+        </div>
+    </nav>
+
+    <div class="content">
+        <div class="profile-card">
+            <div class="card">
+                <div class="card-body">
+                    <div class="profile-header">
+                        <img src="profile_picture.jpg" alt="User Profile Picture" class="profile-photo">
+                        <h2>User Name</h2>
+                        <button id="edit-account-btn" class="btn btn-secondary" data-toggle="modal" data-target="#editAccountModal">Edit Account</button>
+                        <button id="follow-btn" class="follow-btn">Follow</button>
+                    </div>
+                    <p><strong>Followers:</strong> 1234</p>
+                    <p><strong>Following:</strong> 567</p>
+                    <!-- Additional user information here -->
+                </div>
+            </div>
+        </div>
+
+        <div class="user-posts">
+            <h3>User's Posts</h3>
+            <!-- Iterate over user posts and display them -->
+            <div class="post">
+                <h4>Post Title 1</h4>
+                <p>Post description...</p>
+                <!-- Additional post details -->
+            </div>
+            <div class="post">
+                <h4>Post Title 2</h4>
+                <p>Another post description...</p>
+                <!-- Additional post bullshit details -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Account Modal -->
+    <div class="modal fade" id="editAccountModal" tabindex="-1" role="dialog" aria-labelledby="editAccountModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editAccountModalLabel">Edit Account</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="edit-account-form">
+                        <div class="form-group">
+                            <label for="username">New Username</label>
+                            <input type="text" class="form-control" id="username" placeholder="Enter new username">
+                        </div>
+                        <button type="submit" class="btn btn-primary">Save changes</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JavaScript -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.getElementById('edit-account-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            var newUsername = document.getElementById('username').value;
+            document.querySelector('.profile-header h2').textContent = newUsername;
+            // Close the modal
+            $('#editAccountModal').modal('hide');
+        });
+
+        function followUser() {
+            var followButton = document.getElementById('follow-btn');
+            if (followButton.textContent === 'Follow') {
+                // If currently 'Follow', change to 'Following'
+                followButton.textContent = 'Following';
+                followButton.classList.add('following'); 
+            } else {
+                // If currently 'Following', change to 'Follow'
+                followButton.textContent = 'Follow';
+                followButton.classList.remove('following'); 
+            }
+        }
+
+    </script>
+</body>
+
+</html>

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
+import { Container } from '@mui/material';
 import Post from '../components/post/Post';
 import CommentSection from '../components/post/CommentSection';
 
@@ -21,12 +22,14 @@ const ShowPost = () => {
 
   return (
     <>
-      {post && (
-        <>
-          <Post post={post} />
-          <CommentSection post={post}/>
-        </>
-      )}
+      <Container maxWidth="lg" sx={{ paddingTop: 4 }}>
+        {post && (
+          <>
+            <Post post={post} content={post.content} single/>
+            <CommentSection post={post}/>
+          </>
+        )}
+      </Container>
     </>
   );
 }
