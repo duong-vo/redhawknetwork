@@ -1,3 +1,4 @@
+# PLEASE USE THE INSTRUCTION DOCUMENT, THIS README IS ONLY TEMPORARY
 # Django Backend and React Frontend Project
 
 ## Overview
@@ -33,7 +34,13 @@ Make sure you have the following installed on your system:
     python manage.py runserver
     ```
 3. **Setup the React frontend:**\
-    Open a different terminal and run the following commands
+    a. Open a different terminal run the following commands\
+      ```bash
+      # cd into redhawknetwork project
+      cd frontend
+      ```
+    b. Move a .env file that we submitted along with other deliverables into the directory
+     
     ```bash
     yarn install
     yarn start
