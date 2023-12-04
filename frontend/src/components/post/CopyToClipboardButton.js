@@ -1,6 +1,6 @@
 import React, { useRef } from 'react';
 import copy from 'clipboard-copy';
-import Button from '@mui/material/Button';
+import shareIcon from '../../assets/icons8-share-100.png';
 
 const CopyToClipboardButton = ({ postLink }) => {
   const linkRef = useRef(null);
@@ -21,7 +21,12 @@ const CopyToClipboardButton = ({ postLink }) => {
         ref={linkRef}
         style={{ position: 'absolute', left: '-9999px' }} // Hide the input off-screen
       />
-      <Button onClick={handleCopyToClipboard}>Share</Button>
+      <img
+        src={shareIcon}
+        alt="Share"
+        style={{ cursor: 'pointer', height: '24px' }} // Adjust the height as needed
+        onClick={handleCopyToClipboard}
+      />
     </div>
   );
 };
