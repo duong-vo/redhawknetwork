@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import axios from 'axios';
 import {
   Card,
@@ -12,6 +12,7 @@ import {
 } from '@mui/material';
 import { auth } from '../../shared/Firebase';
 import { CATEGORY_LABELS } from '../../shared/Constants';
+import CopyToClipboardButton from './CopyToClipboardButton';
 
 const Post = (props) => {
   const { post, content, single, multiple } = props;
@@ -66,6 +67,7 @@ const Post = (props) => {
     return differenceInMinutes <= 10;
   };
 
+  const postLink = `${window.location.origin}/posts/${id}`;
 
   return (
     <Card>
@@ -102,6 +104,9 @@ const Post = (props) => {
               </Button>
               <span className="downvote-count"> {reactionCount['dislike']} </span>
             </div>
+          </Grid>
+          <Grid item xs={3} align={single && "center"}>
+            <CopyToClipboardButton postLink={postLink} />
           </Grid>
         </Grid>
       </CardActions>
