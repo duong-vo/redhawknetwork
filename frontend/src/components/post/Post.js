@@ -84,16 +84,20 @@ const Post = (props) => {
         <Typography variant={single ? "h6" : "body1"} sx={{ color: !single && '#94969b' }}> {content} </Typography>
       </CardContent>
       <CardActions>
-        <Grid container justifyContent="center" alignItems="center" sx = {{ paddingLeft: !single && 1 }}>
+        <Grid container justifyContent="space-between" alignItems="center" sx={{ paddingLeft: !single && 1 }}>
           <Grid item xs={3} align={single && "center"}>
             <Link href={"/users/" + author.id} underline="none">
               {author.username}
             </Link>
           </Grid>
-          <Grid item xs={3} align={single && "center"}>
-            <Link href="#" underline="none">{comments && comments.length} comment(s)</Link>
-          </Grid>
-          <Grid item xs={6} align={single && "center"}>
+          <Grid item xs={6} container justifyContent="flex-end" alignItems="center">
+            {/* Order: Comments button, Share button, Upvote/Downvote buttons/counters */}
+            <Link href={`/posts/${id}`} underline="none">
+              {comments && comments.length} comment(s)
+            </Link>
+            <div style={{ flex: 1 }} /> {/* Add flexible space to push the following content to the right */}
+            <CopyToClipboardButton postLink={postLink} />
+            <div style={{ padding: '0 8px' }} />
             <div className="voting">
               <Button className="btn-vote upvote" onClick={m => handleReactionClick('like')}>
                 🔺
@@ -105,13 +109,10 @@ const Post = (props) => {
               <span className="downvote-count"> {reactionCount['dislike']} </span>
             </div>
           </Grid>
-          <Grid item xs={3} align={single && "center"}>
-            <CopyToClipboardButton postLink={postLink} />
-          </Grid>
         </Grid>
       </CardActions>
     </Card>
   );
-}
+};
 
 export default Post;
